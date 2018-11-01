@@ -309,11 +309,20 @@
                                         <label for="recipient-name" class="control-label">Attribute:</label>
                                         <input type="hidden" class="form-control" id="parentplan" name="parentplan" value="">
                                         <input type="hidden" class="form-control" id="attributeid" name="attributeid" value="0">
-                                        <select class="form-control custom-select" id="attribute" name="attribute">
+                                        <?php
+                                        $array = array();
+                                        $array[''] = "Select Attribute";
+
+                                        foreach ($attributemaster as $attrmaster) {
+                                            $array[$attrmaster->AttributeID] = $attrmaster->AttributeDescription;
+                                        }
+                                        echo form_dropdown("attribute", $array, set_value("attribute"), "id='attribute' class='form-control custom-select attribute'");
+                                        ?>
+                                        <!-- <select class="form-control custom-select" id="attribute" name="attribute">
                                             <option value="">Select Attribute</option>
                                             <option value="1">Attribute 1</option>
                                             <option value="2">Attribute 2</option>
-                                        </select>
+                                        </select> -->
                                         <small class="form-control-feedback"><div class="attributeerror"></div></small>
                                     </div>
                                     <div class="form-group attributevaluegrp">

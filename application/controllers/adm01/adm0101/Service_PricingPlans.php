@@ -91,6 +91,7 @@ class Service_PricingPlans extends CI_Controller {
       		$this->data['services'] = $this->service_pricingplans_m->get_servicesmasterdetails();
 	      	$this->data['servicesdetails'] = $this->service_pricingplans_m->get_servicesmaster($serviceID);
 	      	$this->data["plans"] = $this->service_pricingplans_m->getallserviceplans($serviceID);
+	      	$this->data['attributemaster'] = $this->service_pricingplans_m->getAttributeMaster();
 			if($_POST)
 	      	{
 	        	$this->load->library('form_validation');
@@ -180,7 +181,7 @@ class Service_PricingPlans extends CI_Controller {
 		{
 			foreach($PlanAttribute as $PlanAttr) 
             { 
-            	$output = $output.'<tr><td>'.$PlanAttr->ServiceAttributeParentAttribute.'</td><td>'.$PlanAttr->ServiceAttributeValue.'</td><td>'.$PlanAttr->ServiceAttributeIncluded.'</td><td><button type="button" class="btn waves-effect waves-light btn-danger cus_size_btn " data-id="'.$PlanAttr->ServiceAttributeParentPlan.'"  data-toggle="modal" data-target="#planattributes-modal" onclick="edit_planattribute('.$PlanAttr->ServiceAttributeParentPlan.','.$PlanAttr->ServiceAttributeID.');" ><i class="mdi mdi-lead-pencil"></i></button> <button type="button" class="btn waves-effect waves-light btn-inverse" onclick="delete_planattribute('.$PlanAttr->ServiceAttributeID.');"  ><i class="mdi mdi-delete"></i></button></td></tr>';
+            	$output = $output.'<tr><td>'.$PlanAttr->AttributeDescription.'</td><td>'.$PlanAttr->ServiceAttributeValue.'</td><td>'.$PlanAttr->ServiceAttributeIncluded.'</td><td><button type="button" class="btn waves-effect waves-light btn-danger cus_size_btn " data-id="'.$PlanAttr->ServiceAttributeParentPlan.'"  data-toggle="modal" data-target="#planattributes-modal" onclick="edit_planattribute('.$PlanAttr->ServiceAttributeParentPlan.','.$PlanAttr->ServiceAttributeID.');" ><i class="mdi mdi-lead-pencil"></i></button> <button type="button" class="btn waves-effect waves-light btn-inverse" onclick="delete_planattribute('.$PlanAttr->ServiceAttributeID.');"  ><i class="mdi mdi-delete"></i></button></td></tr>';
             }
 		}
 		echo $output;

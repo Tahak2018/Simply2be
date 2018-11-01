@@ -82,10 +82,11 @@ class Service_PricingPlans_m extends MY_Model {
 	return $plans;
 	}
 
-	function getPlanAttribute($id) 
+	function getPlanAttribute($planID) 
 	{
-	$this->db->where('ServiceAttributeParentPlan =', $id);
-	$query = $this->db->get('_systemelements_planattributes');
+	//$this->db->where('ServiceAttributeParentPlan =', $id);
+	//$query = $this->db->get('_systemelements_planattributes');
+	$query = $this->db->query("Select * from _systemelements_planattributes as planattr inner join _systemelements_planattributesmaster as planattrmaster on planattr.ServiceAttributeParentAttribute=planattrmaster.AttributeID where ServiceAttributeParentPlan='$planID'");
 	return $query->result();
 	}
 
@@ -101,6 +102,11 @@ class Service_PricingPlans_m extends MY_Model {
 	{
 	$users = $this->db->query("Delete from _systemelements_planattributes where ServiceAttributeID='$AttributeID'");
 	return TRUE;
+	}
+
+	function  getAttributeMaster(){
+		$query=$this->db->query('select * from _systemelements_planattributesmaster');
+		return $query->result();
 	}
 }
 
