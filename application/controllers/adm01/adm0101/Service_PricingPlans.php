@@ -8,7 +8,7 @@ class Service_PricingPlans extends CI_Controller {
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->helper('form');
-		$this->load->model("adm01/adm0101/service_pricingplans_m",'service_pricingplans_m');
+		$this->load->model("adm01/adm0101/Service_PricingPlans_m",'service_pricingplans_m');
 	}
 
 	public function index()
