@@ -53,3 +53,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Login/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+$route['Service_PricingPlans/(:any)'] = "adm01/adm0101/cnt_sca01001_Service_PricingPlans/$1";

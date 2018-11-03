@@ -28,7 +28,7 @@
                             <a class="" href="<?=base_url('adm01/Admin_Dashboard/index')?>" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard </span></a>
                         </li>
                         <li>
-                            <a class="" href="<?=base_url('adm01/adm0101/Service_PricingPlans/index')?>" aria-expanded="false"><i class="ti-layout-grid2"></i><span class="hide-menu">Service Management</span></a>
+                            <a class="" href="<?=base_url('Service_PricingPlans/index')?>" aria-expanded="false"><i class="ti-layout-grid2"></i><span class="hide-menu">Service Management</span></a>
                         </li>
                         <li>
                             <a class="" href="<?=base_url('adm01/adm0102/System_Structure/index')?>" aria-expanded="false"><i class="mdi mdi-laptop-windows"></i><span class="hide-menu">System Structure</span></a>

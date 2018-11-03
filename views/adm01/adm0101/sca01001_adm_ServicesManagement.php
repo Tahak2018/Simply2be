@@ -17,6 +17,9 @@
                             <li class="breadcrumb-item active">Service Management</li>
                         </ol>
                     </div>
+                    <div class="">
+                        <button class="right-side-toggle waves-effect waves-light btn-success btn btn-circle btn-sm pull-right m-l-10"><i class="ti-settings text-white"></i></button>
+                    </div>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
@@ -33,7 +36,7 @@
                                 <h4 class="m-b-0 text-white">Services & Plans Master</h4>
                             </div>
                             <div class="card-body">
-                                <form  role="form" method="post">
+                                <form  role="form" method="post" id="indexservice">
                                     <div class="form-body">
                                         <!-- <h3 class="card-title">Services Master</h3>
                                         <hr> -->
@@ -90,7 +93,7 @@
                                             <div class="col-md-8">
                                                 <small class="text-muted">Service Description </small>
                                                 <h6 class="SDesc"><?=$SDesc?></h6><hr>
-                                                <button type="button" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#servicesmaster-modal" onclick="edit_servicesmaster();" >Edit Services</button>
+                                                <button type="button" class="btn waves-effect waves-light btn-danger" data-toggle="modal" data-target="#servicesmaster-modal" onclick="edit_servicesmaster();" >Edit Services</button>
                                                 <button type="button" class="btn btn-inverse closeservicesdetails">Cancel</button>
                                             </div>
                                             <div class="col-md-4">
@@ -100,10 +103,10 @@
                                         <!--/row-->
                                     <?php } ?>
 
-                                        <h4 class="box-title m-t-20">Plans Master</h4>
+                                        <h4 class="box-title m-t-20">Plans Master <button type="button" class="btn waves-effect waves-light btn-success m-l-20" data-toggle="modal" data-target="#planmaster-modal">Add Plan</button> </h4>
                                         <hr>
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <!-- <table class="table">
                                                 <thead>
                                                     <tr>
                                                         <th width="30%">Plan Title</th>
@@ -168,7 +171,7 @@
                                                         <td><button type="submit" class="btn waves-effect waves-light btn-success m-t-5 planbtn"   >Add Plan</button> </td>
                                                     </tr>
                                                 </tbody>
-                                            </table>
+                                            </table> -->
 
                                             <table id="demo-foo-accordion" class="table toggle-circle table-hover">
                                             <thead>
@@ -177,7 +180,7 @@
                                                     <th> Plan Duration </th>
                                                     <th> Plan Price </th>
                                                     <th> Currency </th>
-                                                    <th data-hide="all" width="100%"> Attribute </th>
+                                                    <th data-hide="all" width="100%">  </th>
                                                     <th> Action </th>
                                                 </tr>
                                             </thead>
@@ -191,19 +194,21 @@
                                                     <td><input type="hidden" value="<?=$plan->PlanID?>" class="rowplanID" name="rowplanID" ><?=$plan->PlanTitle?></td>
                                                     <td><?=$plan->PlanDuration?></td>
                                                     <td><?=$plan->PlanPrice?></td>
-                                                    <td><?=$plan->PlanCurrency?></td>
+                                                    <td><?=$plan->MasterCurrencyLongTitle?></td>
                                                     <td class="setplanattribute"> 
+                                                        <div class="pull-left">
                                                         <table class="table table-bordered planattr_table">
                                                             <tr>
                                                                 <th>Attribute</th>
                                                                 <th>Values</th>
                                                                 <th>Features</th>
-                                                                <th>Action <button type="button" class="btn waves-effect waves-light btn-success m-l-20 getplanID" title="Add New Attribute"  data-toggle="modal" data-target="#planattributes-modal" data-id="<?=$plan->PlanID?>" > <i class="mdi mdi-plus"></i></button></th>
+                                                                <th>Action </th>
                                                             </tr>
                                                             <tbody class="setplanattribute<?=$plan->PlanID?>"></tbody>
-                                                        </table>
+                                                        </table></div>
+                                                        <div class="pull-left m-t-10"><button type="button" class="btn waves-effect waves-light btn-success m-l-20 getplanID" title="Add New Attribute"  data-toggle="modal" data-target="#planattributes-modal" data-id="<?=$plan->PlanID?>" > Add Plan Attribute</button></div>
                                                     </td>
-                                                    <td><button type="button" class="btn waves-effect waves-light btn-danger" onclick="edit_plansmaster(<?=$plan->PlanID?>);"  >Edit Plan</button> 
+                                                    <td><button type="button" class="btn waves-effect waves-light btn-danger" data-toggle="modal" data-target="#planmaster-modal" onclick="edit_plansmaster(<?=$plan->PlanID?>);"  >Edit Plan</button> 
                                                     <?php if($plan->PlanStatus == 1) { ?>
                                                     <button type="button" class="btn waves-effect waves-light btn-inverse" onclick="statusupdate_plansmaster(<?=$plan->PlanID?>,0);"   >Deactive</button>
                                                     <?php } else { ?>
@@ -230,13 +235,7 @@
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
                 
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
 
 
 
@@ -291,9 +290,72 @@
                 </div>
                 <!-- /.servicesmaster modal -->
 
-                <!-- planattributesmaster modal content -->
+                <!-- planmaster modal content -->
+                <div id="planmaster-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Plan Master</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="planmasterform" role="form" method="post">
+                                    <div class="form-group planparentservicegrp">
+                                        <label for="planparentservice" class="control-label">Select Service:</label>
+                                        <?php 
+                                            $array = array();
+                                            $array[''] = "Select Services";
+
+                                            foreach ($services as $service) {
+                                                $array[$service->ServiceID] = $service->ServiceTitle;
+                                            }
+                                            echo form_dropdown("planparentservice", $array, set_value("planparentservice"), "id='planparentservice' class='form-control custom-select planparentservice'");
+                                        ?>
+                                        <input type="hidden" class="form-control" name="planid" id="planid" value="0">
+                                        <small class="form-control-feedback"><div class="planparentserviceerror"></div></small>
+                                    </div>
+                                    <div class="form-group plantitlegrp">
+                                        <label for="plantitleplantitle" class="control-label">Plan Title:</label>
+                                        <input type="text" class="form-control" name="plantitle" id="plantitle">
+                                        <small class="form-control-feedback"><div class="plantitleerror"></div></small>
+                                    </div>
+                                    <div class="form-group plandurationgrp">
+                                        <label for="planduration" class="control-label">Plan Duration:</label>
+                                        <input type="text" class="form-control numberonlyvalidate" name="planduration" id="planduration">
+                                        <small class="form-control-feedback"><div class="plandurationerror"></div></small>
+                                    </div>
+                                    <div class="form-group planpricegrp">
+                                        <label for="planprice" class="control-label">Plan Price:</label>
+                                        <input type="text" class="form-control numberonlyvalidate" name="planprice" id="planprice">
+                                        <small class="form-control-feedback"><div class="planpriceerror"></div></small>
+                                    </div>
+                                    <div class="form-group plancurrencygrp">
+                                            <label for="plancurrency" class="control-label">Plan Currency:</label>
+                                            <?php
+                                            $array = array();
+                                            $array[''] = "Select Currency";
+
+                                            foreach ($currency as $curren) {
+                                                $array[$curren->MasterCurrencyID] = $curren->MasterCurrencyLongTitle;
+                                            }
+                                            echo form_dropdown("plancurrency", $array, set_value("plancurrency"), "id='plancurrency' class='form-control custom-select plancurrency'");
+                                            ?>
+                                            <small class="form-control-feedback"><div class="plancurrencyerror"></div></small>
+                                    </div>
+                                    <div class="text-aligncenter has-danger">
+                                        <small class="form-control-feedback"><div class="commonerror"></div></small>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                <button type="button" onclick="add_plansmaster();" class="btn btn-danger waves-effect waves-light">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                <!-- /.planattributesmaster modal -->
+                <!-- /.planmaster modal -->
 
                 <!-- planattributes modal content -->
                 <div id="planattributes-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -318,16 +380,11 @@
                                         }
                                         echo form_dropdown("attribute", $array, set_value("attribute"), "id='attribute' class='form-control custom-select attribute'");
                                         ?>
-                                        <!-- <select class="form-control custom-select" id="attribute" name="attribute">
-                                            <option value="">Select Attribute</option>
-                                            <option value="1">Attribute 1</option>
-                                            <option value="2">Attribute 2</option>
-                                        </select> -->
                                         <small class="form-control-feedback"><div class="attributeerror"></div></small>
                                     </div>
                                     <div class="form-group attributevaluegrp">
                                         <label for="recipient-name" class="control-label">Attribute Value:</label>
-                                        <input type="text" class="form-control" id="attributevalue" name="attributevalue">
+                                        <input type="text" class="form-control numberonlyvalidate" id="attributevalue" name="attributevalue">
                                         <small class="form-control-feedback"><div class="attributevalueerror"></div></small>
                                     </div>
                                     <div class="form-group featureincludedgrp">
@@ -338,12 +395,14 @@
                                         </select>
                                         <small class="form-control-feedback"><div class="featureincludederror"></div></small>
                                     </div>
-                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                                    <button type="button" onclick="add_planattribute();" class="btn btn-danger waves-effect waves-light">Save</button>
+                                    <div class="text-aligncenter has-danger">
+                                        <small class="form-control-feedback"><div class="commonerror"></div></small>
+                                    </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                
+                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                <button type="button" onclick="add_planattribute();" class="btn btn-danger waves-effect waves-light">Save</button>
                             </div>
                         </div>
                     </div>
@@ -364,39 +423,26 @@ $('.addrow').append('<tr><td><input type="text" class="form-control"></td><td><i
 
 $(document).ready(function(){    
 
-    $('.selectservices').on('change', function() {
-        if(this.value != '')
-        {
-            var serviceID = this.value; 
-            window.location = baseurl+"adm01/adm0101/Service_PricingPlans/GetServicePlanData/"+serviceID; 
-            /*$('.servicesdetails').removeClass( "hide" );
-            $('.servicesdetails').addClass( "show" );
+    $('.selectservices').on('change', function() { 
+        $('form#indexservice').submit();
+    });
 
-            var url="adm01/adm0101/Service_PricingPlans/getServiceMasterData"
-            $.ajax({
-            type:"POST",
-            url:"<?php echo base_url() ?>"+url,
-            data:{'serviceID': serviceID},
-            success:function (data) {
-                var parsed = JSON.parse(data);
-                window.location = baseurl+"adm01/adm0101/Service_PricingPlans/GetServicePlanData/"+serviceID;
-                $('.selectservices').val(serviceID);
-                var stat;
-                $.each(parsed, function(key, item) {
-                    $(".SCode").html(item['ServiceCode']);
-                    $(".SType").html(item['ServiceType']);
-                    if(item['ServiceStatus'] == 1 ) { stat ='Active'; } else { stat = 'Deactive'; }
-                    $(".SStatus").html(stat);
-                    $(".SDesc").html(item['ServiceDescription']);
-                });
-            }
-            });     
-            */
+     $(".numberonlyvalidate").keyup(function (e) {
+        $('.commonerror').html("");
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
         }
-        else
-        {
-            $('.servicesdetails').removeClass( "show" );
-            $('.servicesdetails').addClass( "hide" );
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            //e.preventDefault();
+            this.value = this.value.replace(/[^0-9]/g, '');
+            $('.commonerror').html("Enter Numbers Only...!!!");
         }
     });
 
@@ -409,7 +455,7 @@ $(document).ready(function(){
     //var rowplanID = $(this).closest('td').find('.getrowplanID .rowplanID').val();
     var rowplanID = $(this).attr('value');
         $.ajax({
-            url: '<?php echo base_url("adm01/adm0101/Service_PricingPlans/getPlanAttribute"); ?>',
+            url: '<?php echo base_url("adm01/adm0101/cnt_sca01001_Service_PricingPlans/getPlanAttribute"); ?>',
             type: 'post',
             data:{'planID': rowplanID},
             dataType: 'html',
@@ -455,7 +501,7 @@ function add_servicesmaster()
     $(document).ready(function(){
         var dataString = $("#servicesmasterform").serialize();
         console.log(dataString);
-        var url="adm01/adm0101/Service_PricingPlans/ServiceMaster"
+        var url="adm01/adm0101/cnt_sca01001_Service_PricingPlans/ServiceMaster"
         $.ajax({
         type:"POST",
         url:"<?php echo base_url() ?>"+url,
@@ -464,14 +510,56 @@ function add_servicesmaster()
             console.log(data);
             if(data == 1)
             {
-            swal({
-            title: "Success!",
-            text: "Service Saved Successfully...!",
-            type: "success"
-            }, function() {
                 location.reload();
-                //window.location = baseurl+"adm01/adm0101/Service_PricingPlans/index";
-            });
+                //window.location = baseurl+"adm01/adm0101/cnt_sca01001_Service_PricingPlans/index";
+            }
+            else
+            {
+            
+            }
+        }
+        });     
+    })
+    }
+}
+
+function add_plansmaster()
+{
+    var planparentservice=$('#planparentservice').val();
+    var plantitle=$('#plantitle').val();
+    var planduration=$('#planduration').val();
+    var planprice=$('#planprice').val();
+    var plancurrency=$('#plancurrency').val(); 
+
+    if(planparentservice == '') { $('.planparentservicegrp').addClass( "has-danger" );  
+        $('.planparentserviceerror').html("The Service is required"); } 
+    else { $('.planparentservicegrp').removeClass( "has-danger" ); $('.servicetitleerror').html("");  }
+    if(plantitle == '') { $('.plantitlegrp').addClass( "has-danger" ); $('.plantitleerror').html("The Plan Title is required");  } 
+    else { $('.plantitlegrp').removeClass( "has-danger" ); $('.plantitleerror').html("");  }
+    if(planduration == '') { $('.plandurationgrp').addClass( "has-danger" ); $('.plandurationerror').html("The Plan Duration is required"); } 
+    else { $('.plandurationgrp').removeClass( "has-danger" ); $('.plandurationerror').html(""); }
+    if(planprice == '') { $('.planpricegrp').addClass( "has-danger" ); $('.planpriceerror').html("The Plan Price is required"); } 
+    else { $('.planpricegrp').removeClass( "has-danger" ); $('.planpriceerror').html("");  }
+    if(plancurrency == '') { $('.plancurrencygrp').addClass( "has-danger" ); $('.plancurrencyerror').html("The Plan Currency is required"); } 
+    else { $('.plancurrencygrp').removeClass( "has-danger" ); $('.plancurrencyerror').html("");  }
+
+    console.log(planparentservice+' '+plantitle+' '+planduration+' '+planprice+' '+plancurrency);
+
+    if(planparentservice != '' && plantitle != '' && planduration != '' && planprice != '' && plancurrency != '')
+    {
+    $(document).ready(function(){
+        var dataString = $("#planmasterform").serialize();
+        console.log(dataString);
+        var url="adm01/adm0101/cnt_sca01001_Service_PricingPlans/PlanMaster"
+        $.ajax({
+        type:"POST",
+        url:"<?php echo base_url() ?>"+url,
+        data:dataString,
+        success:function (data) {
+            console.log(data);
+            if(data == 1)
+            {
+            location.reload();
             }
             else
             {
@@ -487,7 +575,7 @@ function edit_servicesmaster()
 {
    var serviceID = $('#selectservices').val();
    $.ajax({
-        url: '<?php echo base_url("adm01/adm0101/Service_PricingPlans/getServiceMasterData"); ?>',
+        url: '<?php echo base_url("adm01/adm0101/cnt_sca01001_Service_PricingPlans/getServiceMasterData"); ?>',
         type: 'post',
         data:{'serviceID': serviceID},
         dataType: 'html',
@@ -509,7 +597,7 @@ function edit_servicesmaster()
 function edit_plansmaster($planID)
 {
     $.ajax({
-        url: '<?php echo base_url("adm01/adm0101/Service_PricingPlans/getPlanData"); ?>',
+        url: '<?php echo base_url("adm01/adm0101/cnt_sca01001_Service_PricingPlans/getPlanData"); ?>',
         type: 'post',
         data:{'planID': $planID},
         dataType: 'html',
@@ -518,7 +606,7 @@ function edit_plansmaster($planID)
         $.each(parsed, function(key, item) {
             $("#planid").val(item['PlanID']);
             $("#plantitle").val(item['PlanTitle']);
-            $("#selectservices").val(item['PlanParentService']);
+            $("#planparentservice").val(item['PlanParentService']);
             $("#planduration").val(item['PlanDuration']);
             $("#planprice").val(item['PlanPrice']);
             $("#plancurrency").val(item['PlanCurrency']);
@@ -544,20 +632,14 @@ function statusupdate_plansmaster($planID,$status)
         closeOnConfirm: false 
     }, function(){  
         $.ajax({
-        url: '<?php echo base_url("adm01/adm0101/Service_PricingPlans/statusupdatePlanData"); ?>',
+        url: '<?php echo base_url("adm01/adm0101/cnt_sca01001_Service_PricingPlans/statusupdatePlanData"); ?>',
         type: 'post',
         data:{'planID': $planID, 'Status': $status},
         dataType: 'html',
         success: function (data) {
             if(data == 1)
             {
-                swal({
-                title: stat,
-                text: "Plan Attribute has been "+stat+"...!",
-                type: "success"
-                }, function() {
-                    location.reload();
-                });
+                location.reload();
             }
         }
         });
@@ -586,7 +668,7 @@ function add_planattribute()
     $(document).ready(function(){
         var dataString = $("#planattributeform").serialize();
         console.log(dataString);
-        var url="adm01/adm0101/Service_PricingPlans/PlanAttribute"
+        var url="adm01/adm0101/cnt_sca01001_Service_PricingPlans/PlanAttribute"
         $.ajax({
         type:"POST",
         url:"<?php echo base_url() ?>"+url,
@@ -595,14 +677,8 @@ function add_planattribute()
             console.log(data);
             if(data == 1)
             {
-            swal({
-            title: "Success!",
-            text: "Plan Attribute Saved Successfully...!",
-            type: "success"
-            }, function() {
                 location.reload();
-                //window.location = baseurl+"adm01/adm0101/Service_PricingPlans/index";
-            });
+                //window.location = baseurl+"adm01/adm0101/cnt_sca01001_Service_PricingPlans/index";
             }
             else
             {
@@ -617,7 +693,7 @@ function add_planattribute()
 function edit_planattribute($planid,$attrid)
 {
     $.ajax({
-        url: '<?php echo base_url("adm01/adm0101/Service_PricingPlans/getPlanAttributeData"); ?>',
+        url: '<?php echo base_url("adm01/adm0101/cnt_sca01001_Service_PricingPlans/getPlanAttributeData"); ?>',
         type: 'post',
         data:{'planID': $planid, 'AttributeID': $attrid},
         dataType: 'html',
@@ -646,20 +722,14 @@ function delete_planattribute($attrid)
         closeOnConfirm: false 
     }, function(){  
         $.ajax({
-        url: '<?php echo base_url("adm01/adm0101/Service_PricingPlans/deletePlanAttributeData"); ?>',
+        url: '<?php echo base_url("adm01/adm0101/cnt_sca01001_Service_PricingPlans/deletePlanAttributeData"); ?>',
         type: 'post',
         data:{'AttributeID': $attrid},
         dataType: 'html',
         success: function (data) { 
             if(data == 1)
             {
-                swal({
-                title: "Deleted!",
-                text: "Plan Attribute has been deleted...!",
-                type: "success"
-                }, function() {
-                    location.reload();
-                });
+                location.reload();
             }
         }
         });

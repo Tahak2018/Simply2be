@@ -1,4 +1,37 @@
 <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                <div class="right-sidebar">
+                    <div class="slimscrollright">
+                        <div class="rpanel-title"> Action Log <span><i class="ti-close right-side-toggle"></i></span> </div>
+                        <div class="r-panel-body">
+                            <ul class="m-t-20 chatonline">
+                                
+                                <?php
+                                if(isset($actionlog))
+                                {
+                                    foreach ($actionlog as $action) {
+                                ?>
+                                <li>
+                                    <a href="javascript:void(0)"> <span><?=$action->ActionDetails?> <small class="text-success"><?=date("d-m-Y H:i:s", strtotime($action->DateTime))?></small></span></a>
+                                </li>
+                                <?php
+                                    }
+                                }
+                                ?>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+
+
+<!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer">
