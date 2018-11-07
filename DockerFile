@@ -2,5 +2,7 @@ FROM scratch
 
 MAINTAINER ABDULKADHAR<abdul.kadhar91@gmail.com>
 
+RUN apt-get update
+
 CMD ["echo","Hello World"]
 
